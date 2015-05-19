@@ -16,7 +16,7 @@ var extend = require('extend');
  * will be addded to it and gulp.dest() will have no affect (and other string related settings ignored)
  * @param {object} options - see README
  */
-module.exports = function(dest, options) {
+module.exports = function(dest, options, passthrough) {
     if (!dest) {
         throw new PluginError('gulp-hogan-compile',  'Missing dest argument for gulp-hogan-compile');
     }
@@ -59,6 +59,7 @@ module.exports = function(dest, options) {
     function endStream(){
         // If no templates or dest is an object nothing more to do
         if (templates.length === 0 || typeof dest === 'object') {
+            passthrough && this.emit('data', firstFile);
             return this.emit('end');
         }
         var lines = [];
